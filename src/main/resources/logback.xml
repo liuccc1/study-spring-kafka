@@ -1,0 +1,23 @@
+<configuration scan="true" debug="false" scanPeriod="60 seconds">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>[%d] %thread %-5level %logger:%line - %msg%n</pattern>
+            <immediateFlush>true</immediateFlush>
+        </encoder>
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.apache.kafka" level="WARN"/>
+    <logger name="org.mybatis" level="WARN"/>
+
+    <logger name="druid.sql.DataSource" level="WARN"/>
+    <logger name="druid.sql.Connection" level="WARN"/>
+    <logger name="druid.sql.ResultSet" level="WARN"/>
+    <logger name="druid.sql.Statement" level="WARN" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+</configuration>

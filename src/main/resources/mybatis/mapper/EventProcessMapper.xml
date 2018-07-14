@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="distributed.transaction.mappers.EventProcessMapper">
+
+    <resultMap type="EventProcess" id="eventProcessResultMap">
+        <id property="id" column="id"/>
+        <result property="payload" column="payload"/>
+        <result property="eventType" column="eventType"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <insert id="save" parameterType="EventProcess">
+        INSERT INTO t_kafka_event_process (payload, eventType, status)
+        VALUES (#{payload},  #{eventType},  #{status})
+    </insert>
+
+</mapper>

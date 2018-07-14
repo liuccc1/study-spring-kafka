@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="distributed.transaction.mappers.EventPublishMapper">
+
+    <resultMap type="EventPublish" id="eventPublishResultMap">
+        <id property="id" column="id"/>
+        <result property="payload" column="payload"/>
+        <result property="eventType" column="eventType"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <insert id="save" parameterType="EventPublish">
+        INSERT INTO t_kafka_event_publish (payload, eventType, status)
+        VALUES (#{payload},  #{eventType},  #{status})
+    </insert>
+
+    <select id="list" resultType="EventPublish">
+        SELECT id, payload, eventType
+        FROM t_kafka_event_publish
+        <where>
+            <if test="status != null and status != ''">status = #{status}</if>
+            <if test="eventType != null and eventType != ''">AND eventType = #{eventType}</if>
+        </where>
+    </select>
+
+    <update id="updateStatus">
+        UPDATE t_kafka_event_publish
+        SET status = #{status}
+        <where>
+            <if test="ids != null">
+                <foreach collection="ids" open=" and id in (" close=")" separator="," item="id">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </update>
+
+</mapper>
